@@ -109,7 +109,7 @@ function Hero({ ready }: { ready: boolean }) {
       <div className="hero-inner">
         <motion.div className="hero-copy" style={{ opacity: fade }}>
           <motion.p className="eyebrow" {...show(0.2)}>
-            <span className="pulse" /> Open to Summer 2027 internships
+            <span className="pulse" /> Open to {profile.seeking}
           </motion.p>
 
           <motion.h1 className="hero-name" style={{ y: nameY }}>
@@ -230,6 +230,7 @@ function Work() {
               </div>
               <ProjectArt art={p.art} />
               <h3>{p.title}</h3>
+              {p.credit && <span className="card-credit">{p.credit}</span>}
               <p>{p.description}</p>
               <ul className="tags">
                 {p.tags.map((t) => (
@@ -298,16 +299,17 @@ function About() {
         <SplitText as="h2" text="Two pitches, one mindset." className="section-title" />
         <Reveal>
           <p className="about-lede">
-            I’m a Computer Engineering student at the University of Maryland in the ACES Cybersecurity
-            Honors Program. I like building tools I actually use, and most of my best ideas start on a cricket field.
+            I’m a first-year Computer Engineering student at the University of Maryland in the ACES Cybersecurity
+            Honors Program. I care most about how hardware and software work together, and I like building tools I
+            actually use.
           </p>
         </Reveal>
         <Reveal delay={0.1}>
           <p>
-            I play in Minor League Cricket for the Fort Lauderdale Lions, which means a lot of training, travel and
-            film. That film turned into Clip Farmer. The questions I had about bowling lengths turned into a Hawk-Eye
-            data study. Off the field I teach kids to code at Code Ninjas, and I’m currently in App Dev Club’s web
-            bootcamp.
+            I play for the Fort Lauderdale Lions in Minor League Cricket as a leg-spinning all-rounder. A lot of my
+            projects start there: practice film turned into Clip Farmer, and questions about my own bowling turned
+            into a Hawk-Eye data study. Competing taught me discipline and how to adapt under pressure. Teaching kids
+            to code at Code Ninjas taught me to explain things clearly.
           </p>
         </Reveal>
 
@@ -325,6 +327,14 @@ function About() {
             {education.awards.map((a) => (
               <span key={a} className="award">
                 ★ {a}
+              </span>
+            ))}
+          </div>
+          <div className="edu-certs">
+            <span className="edu-label">Certifications</span>
+            {education.certifications.map((c) => (
+              <span key={c} className="cert">
+                {c}
               </span>
             ))}
           </div>
