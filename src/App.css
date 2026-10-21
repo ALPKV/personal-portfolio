@@ -822,25 +822,13 @@ section {
 /* Project art */
 .art {
   position: relative;
-  height: 160px;
+  height: 170px;
   margin-top: 18px;
   border-radius: 18px;
   overflow: hidden;
   background: #0d0d0f;
   border: 1px solid var(--line);
   transform: translateZ(25px);
-}
-
-.art-rescrub {
-  background: radial-gradient(circle at 30% 30%, #2a0c12, #0d0d0f);
-}
-
-.art-logo {
-  position: absolute;
-  width: 90px;
-  right: 16px;
-  top: 16px;
-  border-radius: 18px;
 }
 
 .scanline {
@@ -858,68 +846,82 @@ section {
   to { top: 100%; }
 }
 
-.track-box {
-  position: absolute;
-  border: 1.5px solid var(--red);
-  border-radius: 6px;
-  animation: track 4s ease-in-out infinite alternate;
-}
-
-.track-box em {
-  position: absolute;
-  top: -18px;
-  left: -1px;
-  padding: 1px 5px;
-  font: normal 600 9px/1.4 var(--font-mono);
-  background: var(--red);
-  color: var(--ink);
-  border-radius: 3px;
-}
-
-.tb-0 { left: 12%; top: 34%; width: 52px; height: 84px; }
-.tb-1 { left: 38%; top: 46%; width: 44px; height: 70px; animation-delay: -1.3s; }
-.tb-2 { left: 62%; top: 52%; width: 40px; height: 60px; animation-delay: -2.4s; }
-
-@keyframes track {
-  to { transform: translate(14px, -8px); }
-}
-
-.art-pingpong svg {
+.art-shot img {
   width: 100%;
   height: 100%;
-  padding: 18px;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s;
+  filter: saturate(0.85);
 }
 
-.art-pingpong .table { fill: #1a1a1d; stroke: var(--ink); stroke-width: 1.5; }
-.art-pingpong .net { stroke: #fff; stroke-dasharray: 3 3; }
-.art-pingpong .arc { fill: none; stroke: rgba(232, 16, 46, 0.45); stroke-dasharray: 4 6; }
-.art-pingpong .pp-ball { fill: var(--ink); filter: drop-shadow(0 0 6px var(--ink)); }
+.art-dark {
+  background: #0d0d0f;
+}
 
-.elo {
+.art-dark img {
+  object-fit: contain;
+  object-position: center;
+}
+
+.project-card:hover .art-shot img {
+  transform: scale(1.08);
+  filter: saturate(1);
+}
+
+.shot-label {
   position: absolute;
-  right: 14px;
-  bottom: 12px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.6);
-  font: 400 0.72rem/1 var(--font-mono);
+  left: 10px;
+  bottom: 10px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(10, 10, 11, 0.78);
+  backdrop-filter: blur(6px);
+  font: 400 0.65rem/1.2 var(--font-mono);
+  color: var(--ink);
 }
 
-.elo span { color: var(--red); }
+.shot-label.static {
+  position: static;
+  align-self: flex-start;
+}
 
 .art-clips {
   display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+}
+
+.phone {
+  flex: 0 0 auto;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #2a2a2e;
+  background: #000;
+}
+
+.phone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.clips-side {
+  flex: 1;
+  min-width: 0;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 18px;
-  padding: 18px;
+  gap: 12px;
 }
 
 .wave {
   display: flex;
   align-items: center;
   gap: 3px;
-  height: 90px;
+  height: 60px;
 }
 
 .wave span {
@@ -963,27 +965,6 @@ section {
 @keyframes pop {
   0%, 100% { background: #1a1a1d; color: var(--muted); }
   30% { background: var(--ink); color: var(--bg); }
-}
-
-.art-legspin {
-  display: grid;
-  place-items: center;
-  background: radial-gradient(circle, #1c1c20, #0d0d0f);
-}
-
-.art-legspin svg {
-  height: 100%;
-  padding: 10px 0;
-}
-
-.art-legspin .pitch { fill: #c2a46a; opacity: 0.25; }
-.art-legspin .zone { stroke: var(--ink); stroke-width: 0.6; opacity: 0.4; animation: zone 1.5s ease-in-out infinite alternate; }
-.art-legspin .dot { fill: var(--red); animation: dotpulse 1.8s ease-in-out infinite; }
-
-@keyframes zone { to { opacity: 1; } }
-@keyframes dotpulse {
-  0%, 100% { opacity: 0.2; r: 1.5; }
-  50% { opacity: 1; r: 2.6; }
 }
 
 .art-bot {

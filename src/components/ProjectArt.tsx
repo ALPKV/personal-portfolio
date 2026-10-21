@@ -1,68 +1,56 @@
 import type { Project } from '../data'
-import rescrubLogo from '../assets/photos/rescrub-logo.webp'
+import clipLoop from '../assets/projects/clipfarmer-loop.webp'
+import legspinMap from '../assets/projects/legspin-pitchmap.webp'
+import pingpongShot from '../assets/projects/pingpong-signin.webp'
+import rescrubShot from '../assets/projects/rescrub-demo.webp'
 
-// Small looping visuals, one per project. Pure SVG + CSS so they stay cheap.
+// Real captures where a project has them (screenshots, its own output, its own data);
+// small SVG + CSS loops for the ones that don't.
 export function ProjectArt({ art }: { art: Project['art'] }) {
   switch (art) {
     case 'rescrub':
       return (
-        <div className="art art-rescrub">
-          <img src={rescrubLogo} alt="" className="art-logo" />
+        <div className="art art-shot">
+          <img src={rescrubShot} alt="reScrub review workspace showing labeled surfaces, tracked hands and a flagged finding" loading="lazy" />
           <div className="scanline" />
-          {[0, 1, 2].map((i) => (
-            <span key={i} className={`track-box tb-${i}`}>
-              <em>Person {i + 1}</em>
-            </span>
-          ))}
+          <span className="shot-label">Demo review · rescrub.health</span>
         </div>
       )
     case 'pingpong':
       return (
-        <div className="art art-pingpong">
-          <svg viewBox="0 0 200 120">
-            <rect x="4" y="10" width="192" height="100" rx="6" className="table" />
-            <line x1="100" y1="10" x2="100" y2="110" className="net" />
-            <path d="M24 90 Q100 -20 176 60" className="arc" />
-            <circle r="5" className="pp-ball">
-              <animateMotion dur="1.6s" repeatCount="indefinite" path="M24 90 Q100 -20 176 60 Q100 -10 24 90" />
-            </circle>
-          </svg>
-          <div className="elo">
-            ELO <b>1487</b> <span>▲ 16</span>
-          </div>
+        <div className="art art-shot">
+          <img src={pingpongShot} alt="PFH Ping Pong League sign-in page" loading="lazy" />
+          <span className="shot-label">Live · Vercel</span>
         </div>
       )
     case 'clips':
       return (
         <div className="art art-clips">
-          <div className="wave">
-            {Array.from({ length: 36 }, (_, i) => (
-              <span key={i} className={i % 9 === 4 ? 'peak' : ''} style={{ animationDelay: `${(i % 12) * -0.11}s` }} />
-            ))}
+          <div className="phone">
+            <img src={clipLoop} alt="A delivery clip cut automatically from net-session footage" loading="lazy" />
           </div>
-          <div className="clip-strip">
-            {[0, 1, 2, 3].map((i) => (
-              <span key={i} style={{ animationDelay: `${i * 0.25}s` }}>
-                clip_{String(i + 1).padStart(2, '0')}.mp4
-              </span>
-            ))}
+          <div className="clips-side">
+            <div className="wave">
+              {Array.from({ length: 24 }, (_, i) => (
+                <span key={i} className={i % 8 === 3 ? 'peak' : ''} style={{ animationDelay: `${(i % 12) * -0.11}s` }} />
+              ))}
+            </div>
+            <div className="clip-strip">
+              {[0, 1, 2].map((i) => (
+                <span key={i} style={{ animationDelay: `${i * 0.25}s` }}>
+                  clip_{String(i + 1).padStart(2, '0')}.mp4
+                </span>
+              ))}
+            </div>
+            <span className="shot-label static">Real output</span>
           </div>
         </div>
       )
     case 'legspin':
       return (
-        <div className="art art-legspin">
-          <svg viewBox="0 0 120 200">
-            <rect x="30" y="4" width="60" height="192" rx="2" className="pitch" />
-            {[40, 70, 100, 130, 160].map((y, i) => (
-              <line key={y} x1="30" x2="90" y1={y} y2={y} className="zone" style={{ animationDelay: `${i * 0.3}s` }} />
-            ))}
-            {Array.from({ length: 46 }, (_, i) => {
-              const cx = 44 + ((i * 37) % 32)
-              const cy = 60 + ((i * 53) % 110)
-              return <circle key={i} cx={cx} cy={cy} r="2" className="dot" style={{ animationDelay: `${(i % 10) * 0.18}s` }} />
-            })}
-          </svg>
+        <div className="art art-shot art-dark">
+          <img src={legspinMap} alt="Pitch map of 17,848 leg-spin deliveries by length zone, good length highlighted at 1.16 runs per ball" loading="lazy" />
+          <span className="shot-label">Runs per ball · 17,848 real deliveries</span>
         </div>
       )
     case 'bot':
