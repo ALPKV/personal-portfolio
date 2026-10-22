@@ -64,8 +64,8 @@ export const projects: Project[] = [
       'Grew out of Clip Farmer, which hears the crack of bat on ball and cuts every delivery into its own clip (about 60 minutes of nets in under 3 minutes). Flipper rebuilds it as a web app: clipping and a ball tracker that draws the delivery and times its speed run entirely in the browser, next to a practice planner, workload tracking with injury-risk alerts, match logs and season goals.',
     tags: ['TypeScript', 'Next.js', 'Computer Vision', 'FFmpeg.wasm', 'Postgres', 'Vercel'],
     links: [
-      { label: 'Live site', href: 'https://clip-farmer-2dw8.vercel.app' },
-      { label: 'Code', href: 'https://github.com/ALPKV/Clip_farmer' },
+      { label: 'Live site', href: 'https://flipper-cricket.vercel.app' },
+      { label: 'Code', href: 'https://github.com/ALPKV/Flipper' },
     ],
     art: 'clips',
     accent: '#e8102e',
