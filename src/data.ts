@@ -59,10 +59,10 @@ export const projects: Project[] = [
   {
     id: 'clips',
     title: 'Flipper',
-    tagline: 'A practice command centre for cricketers',
+    tagline: 'Every shot from a net session, clipped',
     description:
-      'Grew out of Clip Farmer, which hears the crack of bat on ball and cuts every delivery into its own clip (about 60 minutes of nets in under 3 minutes). Flipper rebuilds it as a web app: clipping and a ball tracker that draws the delivery and times its speed run entirely in the browser, next to a practice planner, workload tracking with injury-risk alerts, match logs and season goals.',
-    tags: ['TypeScript', 'Next.js', 'Computer Vision', 'FFmpeg.wasm', 'Postgres', 'Vercel'],
+      'Grew out of Clip Farmer. Drop in an unedited net session and Flipper hears the crack of bat on ball, ignores talking, and cuts every shot into its own clip, ready to save or join into one highlights video. A ball tracker draws the delivery over the video and times its speed. It all runs in the browser with FFmpeg compiled to WebAssembly, so videos never leave the device and there is nothing to sign up for.',
+    tags: ['TypeScript', 'Next.js', 'Computer Vision', 'Signal Processing', 'FFmpeg.wasm', 'Vercel'],
     links: [
       { label: 'Live site', href: 'https://flipper-cricket.vercel.app' },
       { label: 'Code', href: 'https://github.com/ALPKV/Flipper' },
