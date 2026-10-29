@@ -5,10 +5,9 @@ import {
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
 } from 'motion/react'
-import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
 import blazer from './assets/photos/blazer.webp'
 import headshot from './assets/photos/headshot.webp'
@@ -25,23 +24,13 @@ import {
   VelocityMarquee,
   WordCycler,
 } from './components/effects'
+import { ProjectEditor, useProjects } from './projects'
 import { ProjectArt } from './components/ProjectArt'
 import { ease } from './motion'
-import { education, experience, leadership, profile, projects, skills, stats } from './data'
+import { education, experience, leadership, profile, skills, stats } from './data'
 
 const CricketBall = lazy(() => import('./components/CricketBall'))
 const RESUME = '/Aathyanth_Lekshman_Resume.pdf'
-
-function useMediaQuery(query: string) {
-  const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
-  useEffect(() => {
-    const mq = window.matchMedia(query)
-    const on = () => setMatches(mq.matches)
-    mq.addEventListener('change', on)
-    return () => mq.removeEventListener('change', on)
-  }, [query])
-  return matches
-}
 
 function Nav() {
   const { scrollY } = useScroll()
@@ -185,42 +174,19 @@ function Hero({ ready }: { ready: boolean }) {
 }
 
 function Work() {
-  const ref = useRef<HTMLElement>(null)
-  const track = useRef<HTMLDivElement>(null)
-  const wide = useMediaQuery('(min-width: 900px)')
-  const [distance, setDistance] = useState(0)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
-  const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 })
-  const travel = wide ? distance : 0
-  const x = useTransform(smooth, [0, 1], [0, -travel])
-  const barScale = useTransform(smooth, [0, 1], [0, 1])
-
-  useLayoutEffect(() => {
-    if (!wide) return
-    const measure = () => setDistance(track.current!.scrollWidth - window.innerWidth)
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [wide])
-
+  const state = useProjects()
+  const { projects } = state
   return (
-    <section
-      id="work"
-      ref={ref}
-      className="work"
-      style={wide ? { height: `calc(100vh + ${travel}px)` } : undefined}
-    >
-      <div className="work-sticky">
+    <>
+    <ProjectEditor state={state} />
+    <section id="work" className="work project-work">
+      <div>
         <div className="work-head">
           <p className="section-tag">(01) Selected work</p>
           <SplitText as="h2" text="Things I’ve built" className="section-title" />
-          {wide && (
-            <div className="work-progress">
-              <motion.span style={{ scaleX: barScale }} />
-            </div>
-          )}
         </div>
-        <motion.div className="work-track" ref={track} style={{ x: wide ? x : 0 }}>
+        <div className="projects-grid">
+          {!state.loading && projects.length === 0 && <p>No projects yet. Add your first project above.</p>}
           {projects.map((p, i) => (
             <TiltCard key={p.id} className="project-card" accent={p.accent}>
               <div className="card-glow" />
@@ -228,24 +194,28 @@ function Work() {
                 <span className="card-index">{String(i + 1).padStart(2, '0')}</span>
                 <span className="card-tagline">{p.tagline}</span>
               </div>
-              <ProjectArt art={p.art} />
+              <ProjectArt art={p.art ?? 'bot'} />
               <h3>{p.title}</h3>
               {p.credit && <span className="card-credit">{p.credit}</span>}
               <p>{p.description}</p>
               <ul className="tags">
-                {p.tags.map((t) => (
+                {p.technologies.map((t) => (
                   <li key={t}>{t}</li>
                 ))}
               </ul>
+              <div className="project-actions">
+                <button type="button" disabled={state.busy} onClick={() => void state.edit(p.id)}>Edit</button>
+                <button type="button" disabled={state.busy} onClick={() => void state.remove(p)}>Delete</button>
+              </div>
               <div className="card-links">
-                {p.links.length ? (
+                {p.links?.length ? (
                   p.links.map((l) => (
                     <a key={l.href} href={l.href} target="_blank" rel="noreferrer" data-cursor="Open">
                       {l.label} <span aria-hidden="true">↗</span>
                     </a>
                   ))
                 ) : (
-                  <span className="muted">Competition build</span>
+                  <span className="muted">Project #{p.id}</span>
                 )}
               </div>
             </TiltCard>
@@ -255,9 +225,10 @@ function Work() {
             <strong>GitHub</strong>
             <span className="arrow">→</span>
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
+    </>
   )
 }
 

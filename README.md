@@ -1,23 +1,47 @@
-# Aathyanth Lekshman · Portfolio
+# Personal portfolio — Week 6
 
-Personal site built with React, Vite, [Motion](https://motion.dev), [Lenis](https://lenis.darkroom.engineering) smooth scroll and a React Three Fiber cricket ball. Everything here is free and open source.
+React/Vite frontend connected to a FastAPI backend. Project content is loaded from the API, with create, edit, and delete controls in the Project studio.
 
-## Run locally
+## Local development
 
-```sh
+In one terminal:
+
+```powershell
+cd backend
+uv run fastapi dev
+```
+
+In another terminal:
+
+```powershell
+cd frontend
 bun install
 bun run dev
 ```
 
-## Edit content
+Vite forwards `/api/*` requests to the backend on port 8000. Open the frontend URL printed by Vite.
 
-- Projects, experience, skills, stats: `src/data.ts`
-- Photos: `src/assets/photos/` (WebP, resized for the web)
-- Résumé served from `public/Aathyanth_Lekshman_Resume.pdf`
+## Endpoints
 
-## Deploy for free
+| Method | Local backend path | Behavior |
+| --- | --- | --- |
+| GET | /projects | List projects |
+| GET | /projects/{project_id} | Read one project |
+| POST | /projects | Create; duplicate ID returns 409 |
+| PUT | /projects/{project_id} | Update; body ID must match URL ID |
+| DELETE | /projects/{project_id} | Delete; returns 204 |
 
-Any static host works. The build output is `dist/`.
+Invalid bodies return 422; missing projects return 404. On Vercel, prefix these paths with `/api`.
 
-- **Vercel** or **Netlify**: import the GitHub repo. Build command `bun run build`, output directory `dist`.
-- **GitHub Pages**: set `base: '/personal-portfolio/'` in `vite.config.ts`, build, and publish `dist/` with the official Pages action.
+## Data and hosting
+
+`backend/projects.json` contains the real portfolio projects used to initialize each backend process. All mutations remain in memory, with no database. Restarting or scaling a serverless instance resets its data; changes are not durable or shared across instances. This deployment is an educational CRUD demo, and its editing endpoints are public.
+
+Vercel deploys from the repository root using `vercel.json`: a static Vite build plus a Python function wrapping the existing backend. No paid services or database are configured.
+
+## Quick demonstration
+
+1. Load the page and show projects retrieved from the backend.
+2. Create a project with an unused positive ID, title, description, and comma-separated technologies.
+3. Click Edit on its card, change the title, and save.
+4. Click Delete on that card, then Confirm delete in the Project studio.

@@ -1,0 +1,135 @@
+[
+  {
+    "id": 1,
+    "title": "reScrub",
+    "tagline": "Computer vision for surgical training",
+    "description": "Flags breaks in sterile technique in practice-surgery video from a single camera. A 7-stage GPU pipeline tracks anonymized staff, hands and sterile surfaces, uses depth to tell hovering from touching, and outputs timestamped findings for instructors to review.",
+    "credit": "Co-built with Abhiraam Kandula",
+    "links": [
+      {
+        "label": "Live site",
+        "href": "https://rescrub.health"
+      },
+      {
+        "label": "Code",
+        "href": "https://github.com/ALPKV/reScrub"
+      }
+    ],
+    "art": "rescrub",
+    "accent": "#e8102e",
+    "technologies": [
+      "Python",
+      "YOLO",
+      "FastAPI",
+      "Next.js",
+      "TimescaleDB",
+      "Docker"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "PFH Ping Pong League",
+    "tagline": "A dorm league, run like a pro tour",
+    "description": "Scan a QR code, play, confirm. Elo rankings, seasons and double-elimination brackets for 2–128 players. Game logic lives in Postgres functions behind row-level security, and every result needs an opponent or referee to confirm it.",
+    "links": [
+      {
+        "label": "Live site",
+        "href": "https://ping-pong-eight-orcin.vercel.app"
+      },
+      {
+        "label": "Code",
+        "href": "https://github.com/ALPKV/pfh-ping-pong"
+      }
+    ],
+    "art": "pingpong",
+    "accent": "#e8102e",
+    "technologies": [
+      "TypeScript",
+      "React",
+      "Supabase",
+      "PostgreSQL",
+      "Vercel"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Flipper",
+    "tagline": "Every shot from a net session, clipped",
+    "description": "Grew out of Clip Farmer. Drop in an unedited net session and Flipper hears the crack of bat on ball, ignores talking, and cuts every shot into its own clip, ready to save or join into one highlights video. A ball tracker draws the delivery over the video and times its speed. It all runs in the browser with FFmpeg compiled to WebAssembly, so videos never leave the device and there is nothing to sign up for.",
+    "links": [
+      {
+        "label": "Live site",
+        "href": "https://flipper-cricket.vercel.app"
+      },
+      {
+        "label": "Code",
+        "href": "https://github.com/ALPKV/Flipper"
+      }
+    ],
+    "art": "clips",
+    "accent": "#e8102e",
+    "technologies": [
+      "TypeScript",
+      "Next.js",
+      "Computer Vision",
+      "Signal Processing",
+      "FFmpeg.wasm",
+      "Vercel"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Leg-spin Length Study",
+    "tagline": "Does length predict runs?",
+    "description": "I bowl leg spin, so I audited 17,848 Hawk-Eye-tracked IPL leg-spin deliveries. Good length conceded 1.16 runs a ball against 1.98 for very short. Then I caught leakage in my own split, rebuilt it with match-grouped cross-validation, and reported that a linear model doesn’t beat the baselines.",
+    "links": [
+      {
+        "label": "Code",
+        "href": "https://github.com/ALPKV/legspin-length-runs"
+      }
+    ],
+    "art": "legspin",
+    "accent": "#e8102e",
+    "technologies": [
+      "Python",
+      "pandas",
+      "NumPy",
+      "scikit-learn",
+      "LaTeX"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Semi-Autonomous BattleBot",
+    "tagline": "C++ that survives contact",
+    "description": "C++ control software for a VEX battlebot with autonomous and driver modes, sensor-based obstacle detection and an instant manual override. Debugged and refined between rounds across 10+ competitive matches.",
+    "links": [],
+    "art": "bot",
+    "accent": "#e8102e",
+    "technologies": [
+      "C++",
+      "Embedded",
+      "VEX Robotics",
+      "Sensors"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Cricket Alert",
+    "tagline": "Never miss a first ball",
+    "description": "A GitHub Actions cron job that pulls live and upcoming matches from CricAPI every three hours and emails a summary, with every credential kept in GitHub Secrets.",
+    "links": [
+      {
+        "label": "Code",
+        "href": "https://github.com/ALPKV/CrickBet"
+      }
+    ],
+    "art": "alerts",
+    "accent": "#e8102e",
+    "technologies": [
+      "Python",
+      "GitHub Actions",
+      "REST APIs"
+    ]
+  }
+]

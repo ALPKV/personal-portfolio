@@ -1611,3 +1611,23 @@ section {
     bottom: 0;
   }
 }
+
+/* Project management uses the same palette as the portfolio. */
+.project-manager { padding: 6rem max(6vw, 1.25rem) 3rem; border-top: 1px solid #ffffff20; }
+.project-manager h2 { font-size: clamp(2rem, 5vw, 3.5rem); margin: .5rem 0 1rem; }
+.project-manager p { max-width: 65ch; margin-bottom: 1rem; }
+.project-form { display: grid; grid-template-columns: 1fr 2fr; gap: 1.2rem; max-width: 900px; margin-top: 2rem; }
+.project-form label { display: grid; gap: .5rem; }
+.project-form .full { grid-column: 1 / -1; }
+.project-form input, .project-form textarea { width: 100%; padding: .85rem; border: 1px solid #ffffff40; border-radius: 10px; background: #141414; color: #fff; font: inherit; }
+.project-form textarea { min-height: 100px; resize: vertical; }
+.project-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin: 1rem 0; }
+.project-actions button { cursor: pointer; padding: .6rem 1rem; border: 1px solid #ffffff50; border-radius: 8px; background: #202020; color: white; font: inherit; }
+.project-actions button:disabled { opacity: .5; cursor: wait; }
+.project-form input:focus-visible, .project-form textarea:focus-visible, .project-actions button:focus-visible { outline: 2px solid #e8102e; outline-offset: 3px; }
+@media (max-width: 600px) { .project-form { grid-template-columns: 1fr; } }
+.project-work { height: auto; padding-bottom: 5rem; }
+.projects-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; padding: 0 max(6vw, 1.25rem); }
+.projects-grid .project-card { width: auto; min-width: 0; height: auto; }
+.projects-grid .more-card { width: auto; min-height: 220px; }
+@media (max-width: 800px) { .projects-grid { grid-template-columns: 1fr; } }
