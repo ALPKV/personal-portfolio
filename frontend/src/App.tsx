@@ -5,9 +5,10 @@ import {
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
 } from 'motion/react'
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import './App.css'
 import blazer from './assets/photos/blazer.webp'
 import headshot from './assets/photos/headshot.webp'
@@ -32,6 +33,17 @@ import { education, experience, leadership, profile, skills, stats } from './dat
 
 const CricketBall = lazy(() => import('./components/CricketBall'))
 const RESUME = '/Aathyanth_Lekshman_Resume.pdf'
+
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => window.matchMedia(query).matches)
+  useEffect(() => {
+    const mq = window.matchMedia(query)
+    const on = () => setMatches(mq.matches)
+    mq.addEventListener('change', on)
+    return () => mq.removeEventListener('change', on)
+  }, [query])
+  return matches
+}
 
 function Nav() {
   const { scrollY } = useScroll()
@@ -178,18 +190,45 @@ function Hero({ ready }: { ready: boolean }) {
 function Work() {
   const state = useProjects()
   const { projects } = state
+  const ref = useRef<HTMLElement>(null)
+  const track = useRef<HTMLDivElement>(null)
+  const wide = useMediaQuery('(min-width: 900px)')
+  const [distance, setDistance] = useState(0)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
+  const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 24, mass: 0.4 })
+  const travel = wide ? distance : 0
+  const x = useTransform(smooth, [0, 1], [0, -travel])
+  const barScale = useTransform(smooth, [0, 1], [0, 1])
+
+  useLayoutEffect(() => {
+    if (!wide) return
+    const measure = () => setDistance(Math.max(0, track.current!.scrollWidth - window.innerWidth))
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [wide, projects])
+
   return (
-    <>
-    <section id="work" className="work project-work">
-      <div>
+    <section
+      id="work"
+      ref={ref}
+      className="work"
+      style={wide ? { height: `calc(100vh + ${travel}px)` } : undefined}
+    >
+      <div className="work-sticky">
         <div className="work-head">
           <p className="section-tag">(01) Selected work</p>
           <SplitText as="h2" text="Things I’ve built" className="section-title" />
+          {wide && (
+            <div className="work-progress">
+              <motion.span style={{ scaleX: barScale }} />
+            </div>
+          )}
         </div>
         {state.loading && <p role="status" className="project-load-status">Loading projects…</p>}
         {state.error && <div role="alert" className="project-load-status">{state.error} <button type="button" onClick={() => void state.load()}>Retry</button></div>}
-        <div className="projects-grid">
-          {!state.loading && projects.length === 0 && <p>No projects to display.</p>}
+        <motion.div className="work-track" ref={track} style={{ x: wide ? x : 0 }}>
+          {!state.loading && !state.error && projects.length === 0 && <p>No projects to display.</p>}
           {projects.map((p, i) => (
             <TiltCard key={p.id} className="project-card" accent={p.accent}>
               <div className="card-glow" />
@@ -197,7 +236,7 @@ function Work() {
                 <span className="card-index">{String(i + 1).padStart(2, '0')}</span>
                 <span className="card-tagline">{p.tagline}</span>
               </div>
-              <ProjectArt art={p.art ?? 'bot'} />
+              <ProjectArt art={p.art} />
               <h3>{p.title}</h3>
               {p.credit && <span className="card-credit">{p.credit}</span>}
               <p>{p.description}</p>
@@ -207,7 +246,7 @@ function Work() {
                 ))}
               </ul>
               <div className="card-links">
-                {p.links?.length ? (
+                {p.links.length ? (
                   p.links.map((l) => (
                     <a key={l.href} href={l.href} target="_blank" rel="noreferrer" data-cursor="Open">
                       {l.label} <span aria-hidden="true">↗</span>
@@ -224,10 +263,9 @@ function Work() {
             <strong>GitHub</strong>
             <span className="arrow">→</span>
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
-    </>
   )
 }
 
