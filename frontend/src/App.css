@@ -1631,3 +1631,28 @@ section {
 .projects-grid .project-card { width: auto; min-width: 0; height: auto; }
 .projects-grid .more-card { width: auto; min-height: 220px; }
 @media (max-width: 800px) { .projects-grid { grid-template-columns: 1fr; } }
+
+/* Public guestbook, separate from the read-only portfolio cards. */
+.guestbook { padding: 6rem max(6vw, 1.25rem); border-top: 1px solid #ffffff20; scroll-margin-top: 6rem; }
+.guestbook-heading { display: flex; gap: 2rem; justify-content: space-between; align-items: end; margin-bottom: 3rem; }
+.guestbook-heading > p { max-width: 30ch; color: var(--muted); line-height: 1.7; }
+.guestbook-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 5rem); }
+.guestbook h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+.guestbook-compose > p { line-height: 1.7; margin-bottom: 1rem; }
+.guestbook-compose a { text-decoration: underline; }
+.guestbook form { display: grid; gap: 1.25rem; margin-top: 1.5rem; }
+.guestbook label { display: grid; gap: .65rem; }
+.guestbook input, .guestbook textarea { width: 100%; font: inherit; color: inherit; background: #ffffff08; border: 1px solid #8886; border-radius: 12px; padding: 1rem; }
+.guestbook textarea { resize: vertical; }
+.guestbook input:focus-visible, .guestbook textarea:focus-visible, .guestbook button:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+.guestbook .guestbook-help { font-size: .85rem; opacity: .65; }
+.guestbook-list-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+.guestbook-list-heading button { background: none; border: 0; color: inherit; text-decoration: underline; cursor: pointer; font: inherit; }
+.guestbook-empty { border: 1px dashed #8886; border-radius: 16px; padding: 3rem 2rem; line-height: 1.6; opacity: .65; }
+.guestbook-note { border: 1px solid #8884; border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; }
+.guestbook-note header { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.guestbook-note header span { font-size: .8rem; opacity: .6; }
+.guestbook-note > p { white-space: pre-wrap; overflow-wrap: anywhere; margin-top: 1rem; line-height: 1.7; }
+.guestbook [role="alert"] { color: #ff8b8b; }
+.project-load-status { padding: 1rem max(6vw, 1.25rem); }
+@media (max-width: 800px) { .guestbook-layout { grid-template-columns: 1fr; } .guestbook-heading { display: block; } .guestbook-heading > p { margin-top: 1rem; } }

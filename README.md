@@ -1,8 +1,8 @@
-# Personal portfolio — Week 6
+# Aathyanth Lekshman — Personal portfolio
 
-React/Vite frontend connected to a FastAPI backend. Project content is loaded from the API, with create, edit, and delete controls in the Project studio.
+React/Vite frontend connected to a FastAPI backend. Projects are read-only. A public guestbook demonstrates CRUD without allowing visitors to modify portfolio content.
 
-## Local development
+## Run locally
 
 In one terminal:
 
@@ -11,7 +11,7 @@ cd backend
 uv run fastapi dev
 ```
 
-In another terminal:
+In another:
 
 ```powershell
 cd frontend
@@ -19,29 +19,44 @@ bun install
 bun run dev
 ```
 
-Vite forwards `/api/*` requests to the backend on port 8000. Open the frontend URL printed by Vite.
+Open the URL printed by Vite. Its proxy forwards `/api/*` to FastAPI on port 8000.
 
-## Endpoints
+## Guestbook endpoints
 
 | Method | Local backend path | Behavior |
 | --- | --- | --- |
-| GET | /projects | List projects |
-| GET | /projects/{project_id} | Read one project |
-| POST | /projects | Create; duplicate ID returns 409 |
-| PUT | /projects/{project_id} | Update; body ID must match URL ID |
-| DELETE | /projects/{project_id} | Delete; returns 204 |
+| GET | /comments | List public comments, without ownership tokens |
+| POST | /comments | Create a comment; return 201 and a private edit token |
+| PUT | /comments/{comment_id} | Update the creator's comment |
+| DELETE | /comments/{comment_id} | Delete the creator's comment; return 204 |
 
-Invalid bodies return 422; missing projects return 404. On Vercel, prefix these paths with `/api`.
+PUT and DELETE require the `X-Comment-Token` header returned when the comment was created. Only a token hash is kept on the server. The browser keeps its own tokens in session storage; these are never included in public responses or URLs. Other visitors cannot edit/delete that comment. This is a small capability-token demo, not a full account system or moderation platform.
 
-## Data and hosting
+Names and messages are trimmed and length-validated. Invalid bodies return 422, unauthorized mutations return 403, and missing comments return 404. The guestbook is bounded to 100 comments per process.
 
-`backend/projects.json` contains the real portfolio projects used to initialize each backend process. All mutations remain in memory, with no database. Restarting or scaling a serverless instance resets its data; changes are not durable or shared across instances. This deployment is an educational CRUD demo, and its editing endpoints are public.
+GET `/projects` and GET `/projects/{project_id}` serve real portfolio content from `backend/projects.json`. POST, PUT, and DELETE for projects are intentionally disabled.
 
-Vercel deploys from the repository root using `vercel.json`: a static Vite build plus a Python function wrapping the existing backend. No paid services or database are configured.
+On Vercel, add `/api` before these endpoint paths.
 
-## Quick demonstration
+## Temporary data
 
-1. Load the page and show projects retrieved from the backend.
-2. Create a project with an unused positive ID, title, description, and comma-separated technologies.
-3. Click Edit on its card, change the title, and save.
-4. Click Delete on that card, then Confirm delete in the Project studio.
+Comments remain in memory only, with no database or email delivery. A server restart or another serverless instance can yield a different or empty guestbook. Ownership tokens stay in the current browser tab's session. The form explicitly tells visitors their name/comment will be public and temporary. Use the email link for private contact.
+
+## Verification
+
+```powershell
+backend/.venv/Scripts/python.exe -m unittest backend.test_guestbook -v
+npm --prefix frontend run build
+```
+
+Tests cover guestbook CRUD, private ownership tokens, forbidden mutations, validation, missing IDs, and read-only projects.
+
+## Homework recording
+
+1. Show the projects loaded from the API and scroll to Guestbook.
+2. Post a comment using the form.
+3. Edit your comment and save it.
+4. Delete your comment and confirm.
+5. Refresh the comment list to demonstrate GET.
+
+Vercel uses the root `vercel.json` to build the Vite frontend and Python API in one project.

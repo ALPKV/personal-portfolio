@@ -24,7 +24,8 @@ import {
   VelocityMarquee,
   WordCycler,
 } from './components/effects'
-import { ProjectEditor, useProjects } from './projects'
+import { useProjects } from './projects'
+import { Guestbook } from './Guestbook'
 import { ProjectArt } from './components/ProjectArt'
 import { ease } from './motion'
 import { education, experience, leadership, profile, skills, stats } from './data'
@@ -55,6 +56,7 @@ function Nav() {
           ['Work', '#work'],
           ['About', '#about'],
           ['Experience', '#experience'],
+          ['Guestbook', '#guestbook'],
           ['Contact', '#contact'],
         ].map(([label, href]) => (
           <a key={href} href={href} className="nav-link">
@@ -178,15 +180,16 @@ function Work() {
   const { projects } = state
   return (
     <>
-    <ProjectEditor state={state} />
     <section id="work" className="work project-work">
       <div>
         <div className="work-head">
           <p className="section-tag">(01) Selected work</p>
           <SplitText as="h2" text="Things I’ve built" className="section-title" />
         </div>
+        {state.loading && <p role="status" className="project-load-status">Loading projects…</p>}
+        {state.error && <div role="alert" className="project-load-status">{state.error} <button type="button" onClick={() => void state.load()}>Retry</button></div>}
         <div className="projects-grid">
-          {!state.loading && projects.length === 0 && <p>No projects yet. Add your first project above.</p>}
+          {!state.loading && projects.length === 0 && <p>No projects to display.</p>}
           {projects.map((p, i) => (
             <TiltCard key={p.id} className="project-card" accent={p.accent}>
               <div className="card-glow" />
@@ -203,10 +206,6 @@ function Work() {
                   <li key={t}>{t}</li>
                 ))}
               </ul>
-              <div className="project-actions">
-                <button type="button" disabled={state.busy} onClick={() => void state.edit(p.id)}>Edit</button>
-                <button type="button" disabled={state.busy} onClick={() => void state.remove(p)}>Delete</button>
-              </div>
               <div className="card-links">
                 {p.links?.length ? (
                   p.links.map((l) => (
@@ -387,7 +386,7 @@ function Contact() {
   return (
     <section id="contact" className="contact">
       <div className="contact-bg" aria-hidden="true" />
-      <p className="section-tag">(04) Contact</p>
+      <p className="section-tag">(05) Contact</p>
       <h2 className="contact-title">
         <SplitText text="Let’s build" className="contact-line" />
         <SplitText text="something." className="contact-line accent" delay={0.25} />
@@ -464,6 +463,7 @@ export default function App() {
         <About />
         <VelocityMarquee items={['Code', 'Cricket', 'Build', 'Repeat']} baseVelocity={3} />
         <Experience />
+        <Guestbook />
         <Contact />
       </main>
     </>
